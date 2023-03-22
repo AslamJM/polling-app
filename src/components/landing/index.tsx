@@ -5,9 +5,11 @@ import { signIn } from "next-auth/react";
 const Landing = () => {
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-      <h1 className="w-full text-4xl font-extrabold">PollHub.</h1>
-      <div className="flex w-full">
-        <p className="w-1/2 text-justify text-xl">
+      <h1 className="w-full text-center text-4xl font-extrabold md:text-left">
+        PollHub.
+      </h1>
+      <div className="flex w-full flex-col-reverse md:flex-row">
+        <p className="text-md w-full text-justify md:w-1/2 lg:text-xl">
           Welcome to PollHub where you can create and participate in polls! With
           our platform, you can easily create polls on any topic and share them
           with your friends, colleagues, or the public. Whether you are looking
@@ -17,7 +19,7 @@ const Landing = () => {
           poll creators and voters today and start sharing your opinions and
           insights with the world!
         </p>
-        <div className="flex w-1/2 items-center justify-center">
+        <div className="flex w-full items-center justify-center md:w-1/2">
           <Image
             src="images/landing.svg"
             alt="landing"

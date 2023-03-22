@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useCreateTopic } from "~/store/slices/createTopicSlice";
+import Icons from "../Icons";
 
 type Props = {
   placeHolder: string;
@@ -10,13 +11,19 @@ const Option = ({ placeHolder, index }: Props) => {
   const [text, setText] = useState("");
   const [added, setAdded] = useState(false);
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const add = useCreateTopic((state) => state.addVoptions);
   const options = useCreateTopic((state) => state.voptions);
 
   const addOption = () => {
     if (!text) return;
-    if (options.get(index) === text) return;
+    if (options.get(index) === text) {
+      setAdded(true);
+      return;
+    }
     add(index, text);
+
     setAdded(true);
   };
 
@@ -24,23 +31,16 @@ const Option = ({ placeHolder, index }: Props) => {
     <div className="my-1 w-full">
       {added ? (
         <div className="flex w-full items-center justify-between">
-          <p className=" my-1">{text}</p>
+          <p className=" my-1 ml-4">{text}</p>
           <div className="ml-1">
             <button
               className="btn-sm btn-circle btn"
-              onClick={() => setAdded(false)}
+              onClick={() => {
+                setAdded(false);
+                inputRef.current?.focus();
+              }}
             >
-              <svg
-                className="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 20H20.5M18 10L21 7L17 3L14 6M18 10L8 20H4V16L14 6M18 10L14 6"
-                  stroke="#ffffff"
-                />
-              </svg>
+              <Icons.Edit />
             </button>
           </div>
         </div>
@@ -51,7 +51,8 @@ const Option = ({ placeHolder, index }: Props) => {
           value={text}
           onChange={(e) => setText(e.target.value)}
           onBlur={() => addOption()}
-          className="input-bordered input-secondary input input-sm my-1 w-full max-w-xs"
+          className="input-bordered input-secondary input input-sm my-1 ml-4 w-full max-w-xs"
+          ref={inputRef}
         />
       )}
     </div>
